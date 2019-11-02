@@ -2,12 +2,12 @@ import React,{Component} from 'react'; //allows you to create component
 import {Card,CardImg,CardImgOverlay,CardTitle} from 'reactstrap'
 import DishDetail from './DishdetailComponent'
 
-class Menu extends Component{ //component name is menu which is a class
+class Menu extends Component{ 
 
     constructor(props){
 
      super(props);
-     this.state={ //state stores in properties related to this component that we can make use of 
+     this.state={ 
         selectedDish:{}
     
      }
