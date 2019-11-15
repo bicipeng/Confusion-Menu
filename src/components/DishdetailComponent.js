@@ -7,6 +7,7 @@ const DishDetail =props=>{
 
   const dish=props.singleDish
         return(
+            <div className='container'>
             <div className='row'>
                 <div className="col-12 col-md-5 m-1">
             <Card >
@@ -31,6 +32,7 @@ const DishDetail =props=>{
      ) : null
       } 
         </div>
+         </div>
          </div>
         )
     
