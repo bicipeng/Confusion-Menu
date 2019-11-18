@@ -1,48 +1,34 @@
-import React,{Component} from 'react'; //allows you to create component
+import React from 'react'; //allows you to create component
 import {Card,CardImg,CardImgOverlay,CardTitle} from 'reactstrap'
 
 
-class Menu extends Component{ 
+const RenderMenuItem = ({dish,onClick}) =>{
 
-    constructor(props){
+    return (
+     <Card onClick={()=>onClick(dish)}  >
+                      
+    <CardImg with="100%" object src={dish.image} alt={dish.name}/>
+    <CardImgOverlay>
+    <CardTitle>{dish.name}</CardTitle>
+    </CardImgOverlay>
+    </Card>
+    )
 
-     super(props);
-     this.state={ 
-        selectedDish:{}
-    
-     }
-   
     }
 
- 
-
     
-    render(){//render is a method which will return the coresponding view of the component 
-//since dishes is store in the class we can access through this.state.prot
-//create a list of men
-console.log("******",this.props)
+  const Menu = props => {
+      const menu = props.dishes.map ((dish)=>(
+
+        <div key ={dish.id} className="col-12 col-md-5 m-1">
+             <RenderMenuItem dish={dish} onClick={props.onClick}/>       
+        </div>
+      ))
+  
 return(
     <div className='container'>
         <div className ='row'>
-    {this.props.dishes.map((dish) => 
-            
-            (
-            
-                <div key ={dish.id} className="col-12 col-md-5 m-1">
-                    <Card onClick={()=>this.props.onClick(dish)}  >
-                      
-                            <CardImg with="100%" object src={dish.image} alt={dish.name}/>
-                        <CardImgOverlay>
-                      
-                            <CardTitle>{dish.name}</CardTitle>
-                           
-                        </CardImgOverlay>
-
-                    </Card>
-                </div>
-                
-            )
-        )};
+    {menu}
 
         </div>
     </div>
@@ -50,6 +36,6 @@ return(
         
 
     }
-}
+
 
 export default Menu;

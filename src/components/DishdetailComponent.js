@@ -33,7 +33,7 @@ const DishDetail =props=>{
       } 
         </div>
          </div>
-         </div>
+         </div> 
         )
     
    
