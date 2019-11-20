@@ -10,6 +10,7 @@ import DishDetail from'./DishdetailComponent';
 import Header from './HearderComponent'
 import Footer from './FooterComponent'
 import Home from './HomeComponent'
+import About from'./AboutComponent'
 import Contact from './ContactComponent'
 import {Switch, Route, Redirect } from 'react-router-dom'
 
@@ -63,13 +64,13 @@ renderDish(dish){//only render the dish when you click on it ,make the card in t
     return (
     <div>
        <Header/>
-        {/* <Menu dishes={this.state.dishes} onClick={(dishId)=>this.onDishSelect(dishId)} />
-        <DishDetail singleDish={this.state.selectedDish}/> */}
+
         <Switch> 
           <Route path='/menu/:dishId' component={DishWithId}/>
           <Route path='/home' component={HomePage}/>
           <Route exact path ='/menu' component={()=><Menu dishes={this.state.dishes}/>}/>
           <Route exact path='/contactus' component={Contact}/>
+          <Route exact path='/aboutus' component={()=><About leaders={this.state.leaders}/>}/>
           <Redirect to='/home'/>
         </Switch>
         <Footer/>   
