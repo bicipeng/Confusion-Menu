@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Control, LocalForm, Errors } from "react-redux-form";
-import { Button, Label, Col, Row } from "reactstrap";
+import { Button, Label, Row } from "reactstrap";
 
 const required = val => val && val.length;
 const maxLength = len => val => !val || val.length <= len;
@@ -11,21 +11,20 @@ class CommentForm extends Component {
 
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  //when you submit the form, change the state of the isModalOpen as well
-  //the button inside the form, when submit it submit all the info of the form
   handleSubmit(values) {
     this.props.toggle();
     console.log("current state is " + JSON.stringify(values));
     alert("current sate is " + JSON.stringify(values));
   }
   render() {
-    console.log("****", this.props.toggle);
     return (
       <div>
         <div className="col-12 col-md-9">
           <LocalForm onSubmit={values => this.handleSubmit(values)}>
             <Row className="form-group">
-              <Label htmlFor="rating"><strong>Rating</strong></Label>
+              <Label htmlFor="rating">
+                <strong>Rating</strong>
+              </Label>
 
               <Control.select
                 model=".rating"
@@ -41,7 +40,9 @@ class CommentForm extends Component {
               </Control.select>
             </Row>
             <Row className="form-group">
-              <Label htmlFor="yourname"><strong>Your Name</strong></Label>
+              <Label htmlFor="yourname">
+                <strong>Your Name</strong>
+              </Label>
 
               <Control.text
                 model=".yourname"
@@ -67,7 +68,9 @@ class CommentForm extends Component {
               />
             </Row>
             <Row className="form-group">
-              <Label htmlFor="comment"><strong>Comment</strong></Label>
+              <Label htmlFor="comment">
+                <strong>Comment</strong>
+              </Label>
 
               <Control.textarea
                 model=".comment"
