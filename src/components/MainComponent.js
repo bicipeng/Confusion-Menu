@@ -9,6 +9,7 @@ import Footer from './FooterComponent'
 import Home from './HomeComponent'
 import About from'./AboutComponent'
 import Contact from './ContactComponent'
+import CommentForm from './CommentForm'
 import {Switch, Route, Redirect,withRouter} from 'react-router-dom'
 //withRouter is require for configuring react component to connect to redux
 import{connect} from 'react-redux'
@@ -70,6 +71,7 @@ renderDish(dish){//only render the dish when you click on it ,make the card in t
           <Route exact path ='/menu' component={()=><Menu dishes={this.props.dishes}/>}/>
           <Route exact path='/contactus' component={Contact}/>
           <Route exact path='/aboutus' component={()=><About leaders={this.props.leaders}/>}/>
+          <Route exact path="/commentform" component={CommentForm}/>
           <Redirect to='/home'/>
         </Switch>
         <Footer/>   
