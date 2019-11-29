@@ -47,7 +47,7 @@ class Header extends Component {
 
   }
   render() {
-    console.log("*******", this.state.isModalOpen);
+    
     return (
       <React.Fragment>
         <Navbar dark expand="md">

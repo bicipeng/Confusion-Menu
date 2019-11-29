@@ -18,14 +18,14 @@ import{connect} from 'react-redux'
 
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
     // this.state = {
      
     //   selectedDish:{}
     // };
     // this.onDishSelect=this.onDishSelect.bind(this)
-  }
+  // }
 //   onDishSelect(dish){
 //     this.setState(
 //         {

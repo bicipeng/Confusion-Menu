@@ -46,9 +46,13 @@ const DishDetail = props => {
               {comments.map((comment, index) => (
                 <DishComments comment={comment} key={index} />
               ))}
+               <div>
+          Here
+        </div>
             </div>
           ) : null}
         </div>
+       
       </div>
     </div>
   );
