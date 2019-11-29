@@ -14,7 +14,7 @@ import {
 } from "reactstrap";
 import DishComments from "./DishComments";
 import { Link } from "react-router-dom";
-import CommentForm from './CommentForm'
+import CommentForm from "./CommentForm";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -28,7 +28,6 @@ class DishDetail extends Component {
     this.setState({
       isModalOpen: !this.state.isModalOpen
     });
-    console.log("abdefghitjjjaj")
   }
   // submitComment(event) {
   //   event.preventDefault();
@@ -37,7 +36,7 @@ class DishDetail extends Component {
   render() {
     const dish = this.props.dish;
     const comments = this.props.comments;
-    
+
     return (
       <>
         <div className="container">
@@ -81,13 +80,10 @@ class DishDetail extends Component {
             </div>
           </div>
         </div>
-        <Modal
-          isOpen={this.state.isModalOpen}
-          toggle={this.toggleModal}
-        >
-          <ModalHeader toggle={this.toggleModal} >Submit Comment</ModalHeader>
+        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+          <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
-               <CommentForm toggle={this.toggleModal}/>
+            <CommentForm toggle={this.toggleModal} />
           </ModalBody>
         </Modal>
       </>

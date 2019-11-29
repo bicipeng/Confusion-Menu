@@ -1,8 +1,22 @@
-import { createStore } from "redux"; //allows me to create the redux store
-import { Reducer, initialState } from "./reducer";
+import { createStore, combineReducers } from "redux"; //allows me to create the redux store
+import { Leaders } from "./leaders";
+import { Dishes } from "./dishes";
+import { Promotions } from "./promtions";
+import { SelectedDish } from "./selectedDish";
+import { Comments } from "./comments";
+//our global state is here
 
 export const ConfigureStore = () => {
-  //createstore takes two params, reducer and initialstate if required
-  const store = createStore(Reducer, initialState);
+
+  const store = createStore(
+    // specifiy how we want to combine the reducers here
+    combineReducers({
+      dishes: Dishes,
+      comments: Comments,
+      promotions: Promotions,
+      leaders: Leaders,
+      selectedDish: SelectedDish
+    })
+  );
   return store;
 };
