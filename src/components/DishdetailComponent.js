@@ -29,13 +29,11 @@ class DishDetail extends Component {
       isModalOpen: !this.state.isModalOpen
     });
   }
-  // submitComment(event) {
-  //   event.preventDefault();
-  //   this.toggleModal();
-  // }
+  
   render() {
     const dish = this.props.dish;
     const comments = this.props.comments;
+    console.log(".**&&^Loook",this.props)
 
     return (
       <>
@@ -83,7 +81,7 @@ class DishDetail extends Component {
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
-            <CommentForm toggle={this.toggleModal} />
+            <CommentForm toggle={this.toggleModal} dishId={this.props.dishId} addComment={this.props.addComment} />
           </ModalBody>
         </Modal>
       </>

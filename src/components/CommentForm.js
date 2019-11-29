@@ -15,8 +15,11 @@ class CommentForm extends Component {
     this.props.toggle();
     console.log("current state is " + JSON.stringify(values));
     alert("current sate is " + JSON.stringify(values));
+    // this.props.addComment(this.props.dishId,values.rating,values.author,values.comment)
+    
   }
   render() {
+    console.log("***** here, right here",this.props.addComment)
     return (
       <div>
         <div className="col-12 col-md-9">

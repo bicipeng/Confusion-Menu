@@ -9,7 +9,10 @@ import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
-import CommentForm from "./CommentForm";
+//  we need this action creator function in order to obtain an action
+//  JavaScript object which we can then dispatch to the store by saying, calling store dispatch.
+import { addComment } from "../redux/ActionCreators";
+
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 //withRouter is require for configuring react component to connect to redux
 import { connect } from "react-redux";
@@ -60,6 +63,7 @@ class Main extends Component {
           comments={this.props.comments.filter(
             comment => comment.dishId === parseInt(match.params.dishId, 10)
           )}
+          addComment={this.props.addComment}
         />
       );
     };
@@ -100,4 +104,13 @@ const mapStateToProps = state => {
   };
 };
 
-export default withRouter(connect(mapStateToProps)(Main));
+const mapDispatchToProps = dispatch => ({
+  // addComment (dishId...) wer are calling the action creator and will return the action object for addding a comment
+  //the action obj is then given as a paramerter to the dispatch function here 
+  // and thie dispatch cution us the action Obj as a param and supply as teh function inside the mapDispatchToprops s.t we can use it 
+  // within out component through connect
+  //the addComment will be passed in as an attribute for the disDetail compoonent
+  addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment))
+});
+
+export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));
