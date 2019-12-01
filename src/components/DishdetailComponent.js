@@ -20,7 +20,8 @@ class DishDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isModalOpen: false
+      isModalOpen: false,
+      
     };
     this.toggleModal = this.toggleModal.bind(this);
   }
@@ -29,11 +30,10 @@ class DishDetail extends Component {
       isModalOpen: !this.state.isModalOpen
     });
   }
-  
+ 
   render() {
     const dish = this.props.dish;
     const comments = this.props.comments;
-    console.log(".**&&^Loook",this.props)
 
     return (
       <>
@@ -81,7 +81,7 @@ class DishDetail extends Component {
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
-            <CommentForm toggle={this.toggleModal} dishId={this.props.dishId} addComment={this.props.addComment} />
+            <CommentForm toggle={this.toggleModal} dishId={this.props.dish.id} addComment={this.props.addComment} />
           </ModalBody>
         </Modal>
       </>

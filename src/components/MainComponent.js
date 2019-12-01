@@ -40,6 +40,7 @@ class Main extends Component {
   }
 
   render() {
+    console.log("what is the props in the MainCOmponent:", this.props)
     const HomePage = () => {
       return (
         // extract where the dish feature is true
