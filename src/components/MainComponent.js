@@ -52,8 +52,8 @@ class Main extends Component {
 
         <Home
           dish={dishes.filter(dish => dish.featured)[0]}
-          dishesLoading={dishes.isLoading}
-          dishesErrMess={dishes.errMess}
+          dishesLoading={this.props.dishes.isLoading}
+          dishesErrMess={this.props.dishes.errMess}
           leader={this.props.leaders.filter(leader => leader.featured)[0]}
           promotion={this.props.promotions.filter(promo => promo.featured)[0]}
         />
@@ -69,8 +69,8 @@ class Main extends Component {
               dish => dish.id === parseInt(match.params.dishId, 10)
             )[0]
           }
-          isLoading={dishes.isLoading}
-          errMess={dishes.errMess}
+          isLoading={this.props.dishes.isLoading}
+          errMess={this.props.dishes.errMess}
           comments={this.props.comments.filter(
             comment => comment.dishId === parseInt(match.params.dishId, 10)
           )}
@@ -88,7 +88,13 @@ class Main extends Component {
           <Route
             exact
             path="/menu"
-            component={() => <Menu dishes={dishes} />}
+            component={() => (
+              <Menu
+                dishes={dishes}
+                isLoading={this.props.dishes.isLoading}
+                errMess={this.props.dishes.errMess}
+              />
+            )}
           />
           <Route exact path="/contactus" component={Contact} />
           <Route

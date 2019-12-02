@@ -15,7 +15,7 @@ import {
 import DishComments from "./DishComments";
 import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
-import {Loading} from "./LoadingComponent";
+import { Loading } from "./LoadingComponent";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -32,79 +32,82 @@ class DishDetail extends Component {
   }
 
   render() {
-    console.log("****what is the prop form main component", this.props)
+    console.log("****what is the prop form main component", this.props);
     const dish = this.props.dish;
     const comments = this.props.comments;
-
-    return (
-      <>
-        (this.props.isLoading) ? (
+    if (this.props.isLoading) {
+      return (
         <div className="container">
           <div className="row">
             <Loading />
           </div>
         </div>
-        ):(({this.props.errMess})?(
+      );
+    } else if (this.props.errMess) {
+      return (
         <div className="container">
           <div className="row">
             <h4>{this.props.errMess}</h4>
           </div>
         </div>
-        ):
-        (<div className="container">
-          <div className="row">
-            <Breadcrumb>
-              <BreadcrumbItem>
-                <Link to="/menu">Menu</Link>
-              </BreadcrumbItem>
-              <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
-            </Breadcrumb>
-            <div className="col-12">
-              <h3>{dish.name}</h3>
+      );
+    } else
+      return (
+        <>
+          <div className="container">
+            <div className="row">
+              <Breadcrumb>
+                <BreadcrumbItem>
+                  <Link to="/menu">Menu</Link>
+                </BreadcrumbItem>
+                <BreadcrumbItem active>{dish.name}</BreadcrumbItem>
+              </Breadcrumb>
+              <div className="col-12">
+                <h3>{dish.name}</h3>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12 col-md-5 m-1">
+                <Card>
+                  <CardImg with="100%" src={dish.image} alt={dish.name} />
+                  <CardBody>
+                    <CardTitle>{dish.name}</CardTitle>
+                    <CardText>{dish.description}</CardText>
+                  </CardBody>
+                </Card>
+              </div>
+              <div className="col-12 col-md-5 m-1">
+                {comments ? (
+                  <div>
+                    <h4>Comments</h4>
+                    {comments.map((comment, index) => (
+                      <DishComments comment={comment} key={index} />
+                    ))}
+                    <Button outline onClick={this.toggleModal}>
+                      <span
+                        className="fa fa-pencil-square-o"
+                        aria-hidden="true"
+                      ></span>
+                      Submit Comment
+                    </Button>
+                  </div>
+                ) : null}
+              </div>
             </div>
           </div>
-          <div className="row">
-            <div className="col-12 col-md-5 m-1">
-              <Card>
-                <CardImg with="100%" src={dish.image} alt={dish.name} />
-                <CardBody>
-                  <CardTitle>{dish.name}</CardTitle>
-                  <CardText>{dish.description}</CardText>
-                </CardBody>
-              </Card>
-            </div>
-            <div className="col-12 col-md-5 m-1">
-              {comments ? (
-                <div>
-                  <h4>Comments</h4>
-                  {comments.map((comment, index) => (
-                    <DishComments comment={comment} key={index} />
-                  ))}
-                  <Button outline onClick={this.toggleModal}>
-                    <span
-                      className="fa fa-pencil-square-o"
-                      aria-hidden="true"
-                    ></span>
-                    Submit Comment
-                  </Button>
-                </div>
-              ) : null}
-            </div>
-          </div>
-        </div>)
-        )
-        <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
-          <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
-          <ModalBody>
-            <CommentForm
-              toggle={this.toggleModal}
-              dishId={this.props.dish.id}
-              addComment={this.props.addComment}
-            />
-          </ModalBody>
-        </Modal>
-      </>
-    );
+          )
+          <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+            <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
+            <ModalBody>
+              <CommentForm
+                toggle={this.toggleModal}
+                dishId={this.props.dish.id}
+                addComment={this.props.addComment}
+              />
+            </ModalBody>
+          </Modal>
+        </>
+      );
   }
 }
 
