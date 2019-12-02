@@ -17,6 +17,7 @@ import { addComment, fetchDishes } from "../redux/ActionCreators";
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 //withRouter is require for configuring react component to connect to redux
 import { connect } from "react-redux";
+import { actions } from "react-redux-form";
 
 class Main extends Component {
   // constructor(props) {
@@ -96,7 +97,13 @@ class Main extends Component {
               />
             )}
           />
-          <Route exact path="/contactus" component={Contact} />
+          <Route
+            exact
+            path="/contactus"
+            component={() => (
+              <Contact resetFeedbackForm={this.props.resetFeedbackForm} />
+            )}
+          />
           <Route
             exact
             path="/aboutus"
@@ -122,15 +129,18 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  // addComment (dishId...) wer are calling the action creator and will return the action object for addding a comment
-  //the action obj is then given as a paramerter to the dispatch function here
-  // and thie dispatch cution us the action Obj as a param and supply as teh function inside the mapDispatchToprops s.t we can use it
+  // addComment (dishId...) wer are calling the action creator and will return the action object for adding a comment
+  //the action obj is then given as a parameter to the dispatch function here
+  // and this dispatch action use the action Obj as a param and supply as the function inside the mapDispatchToprops s.t we can use it
   // within out component through connect
   //the addComment will be passed in as an attribute for the disDetail compoonent
   addComment: (dishId, rating, author, comment) =>
     dispatch(addComment(dishId, rating, author, comment)),
   fetchDishes: () => {
     dispatch(fetchDishes());
+  },
+  resetFeedbackForm: () => {
+    dispatch(actions.reset("feedback"));
   }
 });
 
