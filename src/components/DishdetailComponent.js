@@ -15,13 +15,13 @@ import {
 import DishComments from "./DishComments";
 import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
+import Loading from "./LoadingComponent";
 
 class DishDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isModalOpen: false,
-      
+      isModalOpen: false
     };
     this.toggleModal = this.toggleModal.bind(this);
   }
@@ -30,14 +30,27 @@ class DishDetail extends Component {
       isModalOpen: !this.state.isModalOpen
     });
   }
- 
+
   render() {
     const dish = this.props.dish;
     const comments = this.props.comments;
 
     return (
       <>
+        (this.props.isLoading) ? (
         <div className="container">
+          <div className="row">
+            <Loading />
+          </div>
+        </div>
+        ):(({this.props.errMess})?(
+        <div className="container">
+          <div className="row">
+            <h4>{this.props.errMess}</h4>
+          </div>
+        </div>
+        ):
+        (<div className="container">
           <div className="row">
             <Breadcrumb>
               <BreadcrumbItem>
@@ -77,11 +90,16 @@ class DishDetail extends Component {
               ) : null}
             </div>
           </div>
-        </div>
+        </div>)
+        )
         <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
           <ModalHeader toggle={this.toggleModal}>Submit Comment</ModalHeader>
           <ModalBody>
-            <CommentForm toggle={this.toggleModal} dishId={this.props.dish.id} addComment={this.props.addComment} />
+            <CommentForm
+              toggle={this.toggleModal}
+              dishId={this.props.dish.id}
+              addComment={this.props.addComment}
+            />
           </ModalBody>
         </Modal>
       </>

@@ -9,9 +9,10 @@ import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
+
 //  we need this action creator function in order to obtain an action
 //  JavaScript object which we can then dispatch to the store by saying, calling store dispatch.
-import { addComment } from "../redux/ActionCreators";
+import { addComment, fetchDishes } from "../redux/ActionCreators";
 
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 //withRouter is require for configuring react component to connect to redux
@@ -33,6 +34,10 @@ class Main extends Component {
   //         }
   //         )
   // }
+
+  componentDidMount() {
+    this.props.fetchDishes();
+  }
   renderDish(dish) {
     //only render the dish when you click on it ,make the card in the
     //render dish function
@@ -40,12 +45,15 @@ class Main extends Component {
   }
 
   render() {
-    console.log("what is the props in the MainCOmponent:", this.props)
+    let dishes = this.props.dishes.dishes;
     const HomePage = () => {
       return (
         // extract where the dish feature is true
+
         <Home
-          dish={this.props.dishes.filter(dish => dish.featured)[0]}
+          dish={dishes.filter(dish => dish.featured)[0]}
+          dishesLoading={dishes.isLoading}
+          dishesErrMess={dishes.errMess}
           leader={this.props.leaders.filter(leader => leader.featured)[0]}
           promotion={this.props.promotions.filter(promo => promo.featured)[0]}
         />
@@ -57,10 +65,12 @@ class Main extends Component {
       return (
         <DishDetail
           dish={
-            this.props.dishes.filter(
+            dishes.filter(
               dish => dish.id === parseInt(match.params.dishId, 10)
             )[0]
           }
+          isLoading={dishes.isLoading}
+          errMess={dishes.errMess}
           comments={this.props.comments.filter(
             comment => comment.dishId === parseInt(match.params.dishId, 10)
           )}
@@ -78,7 +88,7 @@ class Main extends Component {
           <Route
             exact
             path="/menu"
-            component={() => <Menu dishes={this.props.dishes} />}
+            component={() => <Menu dishes={dishes} />}
           />
           <Route exact path="/contactus" component={Contact} />
           <Route
@@ -107,11 +117,15 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
   // addComment (dishId...) wer are calling the action creator and will return the action object for addding a comment
-  //the action obj is then given as a paramerter to the dispatch function here 
-  // and thie dispatch cution us the action Obj as a param and supply as teh function inside the mapDispatchToprops s.t we can use it 
+  //the action obj is then given as a paramerter to the dispatch function here
+  // and thie dispatch cution us the action Obj as a param and supply as teh function inside the mapDispatchToprops s.t we can use it
   // within out component through connect
   //the addComment will be passed in as an attribute for the disDetail compoonent
-  addComment: (dishId, rating, author, comment) => dispatch(addComment(dishId, rating, author, comment))
+  addComment: (dishId, rating, author, comment) =>
+    dispatch(addComment(dishId, rating, author, comment)),
+  fetchDishes: () => {
+    dispatch(fetchDishes());
+  }
 });
 
-export default withRouter(connect(mapStateToProps,mapDispatchToProps)(Main));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
