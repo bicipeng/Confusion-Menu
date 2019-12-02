@@ -15,7 +15,7 @@ import {
 import DishComments from "./DishComments";
 import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
-import Loading from "./LoadingComponent";
+import {Loading} from "./LoadingComponent";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -32,6 +32,7 @@ class DishDetail extends Component {
   }
 
   render() {
+    console.log("****what is the prop form main component", this.props)
     const dish = this.props.dish;
     const comments = this.props.comments;
 
