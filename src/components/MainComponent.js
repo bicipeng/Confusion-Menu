@@ -9,6 +9,7 @@ import Footer from "./FooterComponent";
 import Home from "./HomeComponent";
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
+import {TransitionGroup,CSSTransition} from 'react-transition-group'
 
 //  we need this action creator function in order to obtain an action
 //  JavaScript object which we can then dispatch to the store by saying, calling store dispatch.
@@ -20,21 +21,7 @@ import { connect } from "react-redux";
 import { actions } from "react-redux-form";
 
 class Main extends Component {
-  // constructor(props) {
-  //   super(props);
-  // this.state = {
 
-  //   selectedDish:{}
-  // };
-  // this.onDishSelect=this.onDishSelect.bind(this)
-  // }
-  //   onDishSelect(dish){
-  //     this.setState(
-  //         {
-  //             selectedDish:this.props.dish
-  //         }
-  //         )
-  // }
 
   componentDidMount() {
     // this will ensure that when my mainComponent is mounted, then I'll go and fetch all these from that server
@@ -90,7 +77,8 @@ class Main extends Component {
     return (
       <div>
         <Header />
-
+<TransitionGroup>
+  <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
         <Switch>
           <Route path="/menu/:dishId" component={DishWithId} />
           <Route path="/home" component={HomePage} />
@@ -120,6 +108,8 @@ class Main extends Component {
 
           <Redirect to="/home" />
         </Switch>
+        </CSSTransition>
+        </TransitionGroup>
         <Footer />
       </div>
     );
