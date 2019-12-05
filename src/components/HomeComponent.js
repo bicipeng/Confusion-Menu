@@ -1,4 +1,6 @@
 import React from "react";
+import { baseUrl } from "../shared/baseUrl";
+
 import {
   Card,
   CardImg,
@@ -9,31 +11,27 @@ import {
 } from "reactstrap";
 import { Loading } from "./LoadingComponent";
 const RenderCard = ({ item, isLoading, errMess }) => {
-    if(isLoading){
-        return (
-            <Loading/>
-        )
-    }else if (errMess){
-        return (
-      <h4>{errMess}</h4>
-        )
-    }else{
-        return (
-            <Card>
-              <CardImg src={item.image} alt={item.name} />
-              <CardBody>
-                <CardTitle>{item.name}</CardTitle>
-                {item.designation ? (
-                  <CardSubtitle>{item.designation}</CardSubtitle>
-                ) : null}
-                <CardText>{item.description}</CardText>
-              </CardBody>
-            </Card>
-          );
-    }
- 
+  if (isLoading) {
+    return <Loading />;
+  } else if (errMess) {
+    return <h4>{errMess}</h4>;
+  } else {
+    return (
+      <Card>
+        <CardImg src={baseUrl + item.image} alt={item.name} />
+        <CardBody>
+          <CardTitle>{item.name}</CardTitle>
+          {item.designation ? (
+            <CardSubtitle>{item.designation}</CardSubtitle>
+          ) : null}
+          <CardText>{item.description}</CardText>
+        </CardBody>
+      </Card>
+    );
+  }
 };
 const Home = props => {
+  console.log("what is the prosp item ine HomeCOmpoennt",props.dish)
   return (
     <div className="container">
       <div className="row align-items-start">
@@ -45,7 +43,11 @@ const Home = props => {
           />
         </div>
         <div className="col-12 col-md m-1">
-          <RenderCard item={props.promotion} />
+          <RenderCard
+            item={props.promotion}
+            isLoading={props.promosLoading}
+            errMess={props.promosErrMess}
+          />
         </div>
         <div className="col-12 col-md m-1">
           <RenderCard item={props.leader} />

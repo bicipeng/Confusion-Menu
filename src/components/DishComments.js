@@ -4,10 +4,11 @@ const months=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'June', 'July', 'Aug', 'Sept', 
 
 const DishComments = props =>{
 
-const {comment,author,date}=props.comment 
+const {comment,author,date,rating}=props.comment 
 let finalDate=dateConvertor(date)
 return (
     <div>
+<ul>* Rating: <strong>{rating}</strong></ul>
   <ul>{comment}</ul> 
   <ul>{`-- ${author} , ${finalDate}`}</ul>
 </div>

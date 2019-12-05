@@ -12,7 +12,7 @@ import Contact from "./ContactComponent";
 
 //  we need this action creator function in order to obtain an action
 //  JavaScript object which we can then dispatch to the store by saying, calling store dispatch.
-import { addComment, fetchDishes } from "../redux/ActionCreators";
+import { postComment, fetchDishes,fetchComments,fetchPromos } from "../redux/ActionCreators";
 
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 //withRouter is require for configuring react component to connect to redux
@@ -37,7 +37,10 @@ class Main extends Component {
   // }
 
   componentDidMount() {
+    // this will ensure that when my mainComponent is mounted, then I'll go and fetch all these from that server
     this.props.fetchDishes();
+    this.props.fetchComments();
+    this.props.fetchPromos();
   }
   renderDish(dish) {
     //only render the dish when you click on it ,make the card in the
@@ -47,6 +50,8 @@ class Main extends Component {
 
   render() {
     let dishes = this.props.dishes.dishes;
+    let comments=this.props.comments.comments;
+    let promotions=this.props.promotions.promotions
     const HomePage = () => {
       return (
         // extract where the dish feature is true
@@ -56,7 +61,9 @@ class Main extends Component {
           dishesLoading={this.props.dishes.isLoading}
           dishesErrMess={this.props.dishes.errMess}
           leader={this.props.leaders.filter(leader => leader.featured)[0]}
-          promotion={this.props.promotions.filter(promo => promo.featured)[0]}
+          promotion={promotions.filter(promo => promo.featured)[0]}
+          promosLoading={this.props.promotions.isLoading}
+          promosErrMess={this.props.promotions.errMess}
         />
       );
     };
@@ -72,10 +79,11 @@ class Main extends Component {
           }
           isLoading={this.props.dishes.isLoading}
           errMess={this.props.dishes.errMess}
-          comments={this.props.comments.filter(
+          comments={comments.filter(
             comment => comment.dishId === parseInt(match.params.dishId, 10)
           )}
-          addComment={this.props.addComment}
+          commentsMess={this.props.comments.errMess}
+          postComment={this.props.postComment}
         />
       );
     };
@@ -134,10 +142,16 @@ const mapDispatchToProps = dispatch => ({
   // and this dispatch action use the action Obj as a param and supply as the function inside the mapDispatchToprops s.t we can use it
   // within out component through connect
   //the addComment will be passed in as an attribute for the disDetail compoonent
-  addComment: (dishId, rating, author, comment) =>
-    dispatch(addComment(dishId, rating, author, comment)),
+  postComment: (dishId, rating, author, comment) =>
+    dispatch(postComment(dishId, rating, author, comment)),
   fetchDishes: () => {
     dispatch(fetchDishes());
+  },
+  fetchComments: () => {
+    dispatch(fetchComments());
+  },
+  fetchPromos: () => {
+    dispatch(fetchPromos());
   },
   resetFeedbackForm: () => {
     dispatch(actions.reset("feedback"));

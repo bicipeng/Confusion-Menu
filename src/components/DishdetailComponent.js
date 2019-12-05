@@ -16,6 +16,7 @@ import DishComments from "./DishComments";
 import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import { Loading } from "./LoadingComponent";
+import{baseUrl} from"../shared/baseUrl"
 
 class DishDetail extends Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class DishDetail extends Component {
             <div className="row">
               <div className="col-12 col-md-5 m-1">
                 <Card>
-                  <CardImg with="100%" src={dish.image} alt={dish.name} />
+                  <CardImg with="100%" src={baseUrl + dish.image} alt={dish.name} />
                   <CardBody>
                     <CardTitle>{dish.name}</CardTitle>
                     <CardText>{dish.description}</CardText>
@@ -102,7 +103,7 @@ class DishDetail extends Component {
               <CommentForm
                 toggle={this.toggleModal}
                 dishId={this.props.dish.id}
-                addComment={this.props.addComment}
+                postComment={this.props.postComment}
               />
             </ModalBody>
           </Modal>
