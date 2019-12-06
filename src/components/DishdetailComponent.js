@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import { Loading } from "./LoadingComponent";
 import { baseUrl } from "../shared/baseUrl";
-import { FadeTransform, Fade, Stagger } from "react-animation-components";
+import { FadeTransform, Stagger } from "react-animation-components";
 
 class DishDetail extends Component {
   constructor(props) {
@@ -93,9 +93,11 @@ class DishDetail extends Component {
                 {comments ? (
                   <div>
                     <h4>Comments</h4>
-                    {comments.map((comment, index) => (
-                      <DishComments comment={comment} key={index} />
-                    ))}
+                    <Stagger in>
+                      {comments.map((comment, index) => (
+                        <DishComments comment={comment} key={index} />
+                      ))}
+                    </Stagger>
                     <Button outline onClick={this.toggleModal}>
                       <span
                         className="fa fa-pencil-square-o"
