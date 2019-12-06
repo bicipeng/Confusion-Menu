@@ -1,6 +1,5 @@
 import React from "react";
 import { baseUrl } from "../shared/baseUrl";
-
 import {
   Card,
   CardImg,
@@ -10,6 +9,8 @@ import {
   CardSubtitle
 } from "reactstrap";
 import { Loading } from "./LoadingComponent";
+import { FadeTransform } from "react-animation-components";
+
 const RenderCard = ({ item, isLoading, errMess }) => {
   if (isLoading) {
     return <Loading />;
@@ -17,21 +18,26 @@ const RenderCard = ({ item, isLoading, errMess }) => {
     return <h4>{errMess}</h4>;
   } else {
     return (
-      <Card>
-        <CardImg src={baseUrl + item.image} alt={item.name} />
-        <CardBody>
-          <CardTitle>{item.name}</CardTitle>
-          {item.designation ? (
-            <CardSubtitle>{item.designation}</CardSubtitle>
-          ) : null}
-          <CardText>{item.description}</CardText>
-        </CardBody>
-      </Card>
+      <FadeTransform
+        in
+        transformProps={{ exitTransform: "scale(0.5) translateY(-50%)" }}
+      >
+        <Card>
+          <CardImg src={baseUrl + item.image} alt={item.name} />
+          <CardBody>
+            <CardTitle>{item.name}</CardTitle>
+            {item.designation ? (
+              <CardSubtitle>{item.designation}</CardSubtitle>
+            ) : null}
+            <CardText>{item.description}</CardText>
+          </CardBody>
+        </Card>
+      </FadeTransform>
     );
   }
 };
 const Home = props => {
-  console.log("what is the prosp item ine HomeCOmpoennt",props.dish)
+  console.log("what is the prosp item ine HomeCOmpoennt", props.dish);
   return (
     <div className="container">
       <div className="row align-items-start">
