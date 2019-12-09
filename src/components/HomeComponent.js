@@ -37,7 +37,7 @@ const RenderCard = ({ item, isLoading, errMess }) => {
   }
 };
 const Home = props => {
-  console.log("what is the prosp item in the HomeCompoennt", props.dish);
+  console.log("what is the prosp item in the HomeCmpoennt", props.dish);
   return (
     <div className="container">
       <div className="row align-items-start">

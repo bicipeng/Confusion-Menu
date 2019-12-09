@@ -14,6 +14,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group";
 //  we need this action creator function in order to obtain an action
 //  JavaScript object which we can then dispatch to the store by saying, calling store dispatch.
 import {
+  addComment,
   postComment,
   postFeedback,
   fetchDishes,

@@ -1,5 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
-
+import {DISHES} from "../shared/dishes";
 import { baseUrl } from "../shared/baseUrl";
 import { actionTypes } from "react-redux-form";
 //action creator, return a JS object
@@ -92,42 +92,64 @@ export const postFeedback = (
 //fechDishes is a thunk doing 2 dispatches
 //returns a function which when called will try to fetch the dishes first by setting the isLoading to "True",
 // and so that the spinner can be displayed and after a period of time the dishes are fetched and then added into the application.
-export const fetchDishes = () => dispatch => {
-  dispatch(dishesLoading(true));
-  // will replace with an asyn later
-  //the following equivalent to localhost:3001/dishes
-  return (
-    fetch(baseUrl + "dishes")
-      // res.ok tells you if you get data from fetching if you get data, we return the res, and the
-      // res will go to the next .then
-      .then(
-        res => {
-          if (res.ok) {
-            console.log("what is the fetch data in", res);
-            return res;
-          } else {
-            //  get responds, but it is an error
-            // generate a new error and extract the res status form the response error code
-            const error = new Error(
-              "Error" + res.status + ": " + res.statusText
-            );
-            error.res = res;
-            //  when you throw the error in a promise handler, we can then implement a catch at the bottom which will catch the error and then handle the error appropriately.
+// export const fetchDishes = () => dispatch => {
+//   dispatch(dishesLoading(true));
+//   // will replace with an asyn later
+//   //the following equivalent to localhost:3001/dishes
+//   return (
+//     fetch(baseUrl + "dishes")
+//       // res.ok tells you if you get data from fetching if you get data, we return the res, and the
+//       // res will go to the next .then
+//       .then(
+//         res => {
+//           if (res.ok) {
+//             console.log("what is the fetch data in", res);
+//             return res;
+//           } else {
+//             //  get responds, but it is an error
+//             // generate a new error and extract the res status form the response error code
+//             const error = new Error(
+//               "Error" + res.status + ": " + res.statusText
+//             );
+//             error.res = res;
+//             //  when you throw the error in a promise handler, we can then implement a catch at the bottom which will catch the error and then handle the error appropriately.
 
-            throw error;
-          }
-        },
-        // when the server doesnt respond,error.message tells you what the error is
-        error => {
-          const errorMessage = new Error(error.message);
-          throw errorMessage;
-        }
-      )
-      .then(res => res.json())
-      .then(dishes => dispatch(addDishes(dishes)))
-      .catch(error => dispatch(dishesFailed(error.message)))
-  );
-};
+//             throw error;
+//           }
+//         },
+//         // when the server doesnt respond,error.message tells you what the error is
+//         error => {
+//           const errorMessage = new Error(error.message);
+//           throw errorMessage;
+//         }
+//       )
+//       .then(res => res.json())
+//       .then(dishes => dispatch(addDishes(dishes)))
+//       .catch(error => dispatch(dishesFailed(error.message)))
+//   );
+// };
+export const fetchDishes = () => (dispatch) => {
+
+  dispatch(dishesLoading(true));
+
+  return fetch(baseUrl + 'dishes')
+  .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        var error = new Error('Error ' + response.status + ': ' + response.statusText);
+        error.response = response;
+        throw error;
+      }
+    },
+    error => {
+          var errmess = new Error(error.message);
+          throw errmess;
+    })
+  .then(response => response.json())
+  .then(dishes => dispatch(addDishes(dishes)))
+  .catch(error => dispatch(dishesFailed(error.message)));
+}
 export const fetchLeaders = () => dispatch => {
   dispatch(leadersLoading(true));
   // will replace with an asyn later
@@ -212,42 +234,51 @@ export const fetchPromos = () => dispatch => {
 };
 
 //dishes is starting to load
+
+
+
+
 export const dishesLoading = () => ({
   type: ActionTypes.DISHES_LOADING
 });
-export const leadersLoading = () => ({
-  type: ActionTypes.LEADERS_LOADING
-});
-export const promosLoading = () => ({
-  type: ActionTypes.PROMOS_LOADING
-});
-export const dishesFailed = errmess => ({
+
+export const dishesFailed = (errmess) => ({
   type: ActionTypes.DISHES_FAILED,
   payload: errmess
+});
+
+export const addDishes = (dishes) => ({
+  type: ActionTypes.ADD_DISHES,
+  payload: dishes
+});
+
+
+export const addLeaders = leaders => ({
+  type: ActionTypes.ADD_LEADERS,
+  payload: leaders
 });
 export const leadersFailed = errmess => ({
   type: ActionTypes.LEADERS_FAILED,
   payload: errmess
+});
+export const leadersLoading = () => ({
+  type: ActionTypes.LEADERS_LOADING
+});
+
+
+export const addComments = comments => ({
+  type: ActionTypes.ADD_COMMENTS,
+  payload: comments
 });
 export const commentsFailed = errmess => ({
   type: ActionTypes.COMMENTS_FAILED,
   payload: errmess
 });
 
-export const addDishes = dishes => ({
-  type: ActionTypes.ADD_DISHES,
-  payload: dishes
-});
-export const addLeaders = leaders => ({
-  type: ActionTypes.ADD_LEADERS,
-  payload: leaders
-});
 
-export const addComments = comments => ({
-  type: ActionTypes.ADD_COMMENTS,
-  payload: comments
+export const promosLoading = () => ({
+  type: ActionTypes.PROMOS_LOADING
 });
-
 export const addPromos = promos => ({
   type: ActionTypes.ADD_PROMOS,
   payload: promos
