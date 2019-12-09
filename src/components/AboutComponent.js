@@ -9,19 +9,15 @@ import {
   Media
 } from "reactstrap";
 import { Link } from "react-router-dom";
+import { Stagger } from "react-animation-components";
+import { Loading } from "./LoadingComponent";
 
 function About(props) {
-  // const leaders = props.leaders.map((leader) => {
-  //     return (
-  //         <p>Leader {leader.name}</p>
-  //     );
-  // });
-
   const RenderLeader = props.leaders.leaders.map((leader, index) => (
     <div key={index} className="col-12 mt-5">
       <Media tag="li">
         <Media left middle>
-          <Media object src={baseUrl+leader.image} alt={leader.name} />
+          <Media object src={baseUrl + leader.image} alt={leader.name} />
         </Media>
         <Media body className="ml-5">
           <Media heading>{leader.name}</Media>
@@ -108,7 +104,13 @@ function About(props) {
           <h2>Corporate Leadership</h2>
         </div>
         <div className="col-12">
-          <Media list>{RenderLeader}</Media>
+          {props.leadersLoading ? (
+            <Loading />
+          ) : (
+            <Media list>
+              <Stagger in>{RenderLeader}</Stagger>
+            </Media>
+          )}
         </div>
       </div>
     </div>

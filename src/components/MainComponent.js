@@ -109,13 +109,22 @@ class Main extends Component {
                 exact
                 path="/contactus"
                 component={() => (
-                  <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback} />
+                  <Contact
+                    resetFeedbackForm={this.props.resetFeedbackForm}
+                    postFeedback={this.props.postFeedback}
+                  />
                 )}
               />
               <Route
                 exact
                 path="/aboutus"
-                component={() => <About leaders={this.props.leaders} />}
+                component={() => (
+                  <About
+                    leaders={this.props.leaders}
+                    leadersLoading={this.props.leaders.isLoading}
+                    eadrrMess={this.props.leaders.errMess}
+                  />
+                )}
               />
 
               <Redirect to="/home" />
