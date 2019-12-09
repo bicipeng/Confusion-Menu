@@ -1,40 +1,92 @@
-import * as ActonTypes from "./ActionTypes";
-import { DISHES } from "../shared/dishes";
+import * as ActionTypes from "./ActionTypes";
+
 import { baseUrl } from "../shared/baseUrl";
+import { actionTypes } from "react-redux-form";
 //action creator, return a JS object
 //sent the action type to the store
 export const addComment = comment => ({
-  type: ActonTypes.ADD_COMMENT,
+  type: ActionTypes.ADD_COMMENT,
   payload: comment
 });
-export const postComment = (dishId, rating, author, comment) =>(dispatch)=> {
-  const newComment={
+export const postComment = (dishId, rating, author, comment) => dispatch => {
+  const newComment = {
     dishId,
     rating,
     author,
-    comment,
-  }
-  newComment.date=new Date().toISOString()
-  return fetch(baseUrl + "comments" , {
-    method:'POST',
+    comment
+  };
+  newComment.date = new Date().toISOString();
+  return fetch(baseUrl + "comments", {
+    method: "POST",
     body: JSON.stringify(newComment),
-    headers:{
-      'Content-Type':'application/json'
+    headers: {
+      "Content-Type": "application/json"
     },
-    credentials:'same-origin'
+    credentials: "same-origin"
   })
-  .then(response=>{
-    if(response.ok){
-      return response
-    }else{
-      const error = new Error('Error'+ response.status+": "+response.statusText)
-      error.response=response
-      throw error
-    }
-  }).then(response=>response.json())
-  .then(res=>dispatch(addComment(res)))
-  .catch(error=> {console.log("Post Comments", error.message)
-alert('Your comment could not be posted .\n Error: '+ error.message)})
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        const error = new Error(
+          "Error" + response.status + ": " + response.statusText
+        );
+        error.response = response;
+        throw error;
+      }
+    })
+    .then(response => response.json())
+    .then(res => dispatch(addComment(res)))
+    .catch(error => {
+      console.log("Post Comments", error.message);
+      alert("Your comment could not be posted .\n Error: " + error.message);
+    });
+};
+
+export const postFeedback = (
+  firstName,
+  lastName,
+  telNum,
+  email,
+  agree,
+  contactType,
+  message
+) => dispatch => {
+  const feedBack = {
+    firstName,
+    lastName,
+    telNum,
+    email,
+    agree,
+    contactType,
+    message
+  };
+  feedBack.date = new Date().toISOString();
+  return fetch(baseUrl + "feedback", {
+    method: "POST",
+    body: JSON.stringify(feedBack),
+    headers: {
+      "Content-Type": "application/json"
+    },
+    credentials: "same-origin"
+  })
+    .then(response => {
+      if (response.ok) {
+        return response;
+      } else {
+        const error = new Error(
+          "Error" + response.status + ": " + response.statusText
+        );
+        error.response = response;
+        throw error;
+      }
+    })
+    .then(response => response.json())
+    .then(res => dispatch(addComment(res)))
+    .catch(error => {
+      console.log("Post Comments", error.message);
+      alert("Your comment could not be posted .\n Error: " + error.message);
+    });
 };
 
 //fechDishes is a thunk doing 2 dispatches
@@ -46,6 +98,42 @@ export const fetchDishes = () => dispatch => {
   //the following equivalent to localhost:3001/dishes
   return (
     fetch(baseUrl + "dishes")
+      // res.ok tells you if you get data from fetching if you get data, we return the res, and the
+      // res will go to the next .then
+      .then(
+        res => {
+          if (res.ok) {
+            console.log("what is the fetch data in", res);
+            return res;
+          } else {
+            //  get responds, but it is an error
+            // generate a new error and extract the res status form the response error code
+            const error = new Error(
+              "Error" + res.status + ": " + res.statusText
+            );
+            error.res = res;
+            //  when you throw the error in a promise handler, we can then implement a catch at the bottom which will catch the error and then handle the error appropriately.
+
+            throw error;
+          }
+        },
+        // when the server doesnt respond,error.message tells you what the error is
+        error => {
+          const errorMessage = new Error(error.message);
+          throw errorMessage;
+        }
+      )
+      .then(res => res.json())
+      .then(dishes => dispatch(addDishes(dishes)))
+      .catch(error => dispatch(dishesFailed(error.message)))
+  );
+};
+export const fetchLeaders = () => dispatch => {
+  dispatch(leadersLoading(true));
+  // will replace with an asyn later
+  //the following equivalent to localhost:3001/dishes
+  return (
+    fetch(baseUrl + "leaders")
       // res.ok tells you if you get data from fetching if you get data, we return the res, and the
       // res will go to the next .then
       .then(
@@ -71,8 +159,8 @@ export const fetchDishes = () => dispatch => {
         }
       )
       .then(res => res.json())
-      .then(dishes => dispatch(addDishes(dishes)))
-      .catch(error => dispatch(dishesFailed(error.message)))
+      .then(leaders => dispatch(addLeaders(leaders)))
+      .catch(error => dispatch(leadersFailed(error.message)))
   );
 };
 export const fetchComments = () => dispatch => {
@@ -125,35 +213,46 @@ export const fetchPromos = () => dispatch => {
 
 //dishes is starting to load
 export const dishesLoading = () => ({
-  type: ActonTypes.DISHES_LOADING
+  type: ActionTypes.DISHES_LOADING
+});
+export const leadersLoading = () => ({
+  type: ActionTypes.LEADERS_LOADING
 });
 export const promosLoading = () => ({
-  type: ActonTypes.PROMOS_LOADING
+  type: ActionTypes.PROMOS_LOADING
 });
 export const dishesFailed = errmess => ({
-  type: ActonTypes.DISHES_FAILED,
+  type: ActionTypes.DISHES_FAILED,
+  payload: errmess
+});
+export const leadersFailed = errmess => ({
+  type: ActionTypes.LEADERS_FAILED,
   payload: errmess
 });
 export const commentsFailed = errmess => ({
-  type: ActonTypes.COMMENTS_FAILED,
+  type: ActionTypes.COMMENTS_FAILED,
   payload: errmess
 });
 
 export const addDishes = dishes => ({
-  type: ActonTypes.ADD_DISHES,
+  type: ActionTypes.ADD_DISHES,
   payload: dishes
+});
+export const addLeaders = leaders => ({
+  type: ActionTypes.ADD_LEADERS,
+  payload: leaders
 });
 
 export const addComments = comments => ({
-  type: ActonTypes.ADD_COMMENTS,
+  type: ActionTypes.ADD_COMMENTS,
   payload: comments
 });
 
 export const addPromos = promos => ({
-  type: ActonTypes.ADD_PROMOS,
+  type: ActionTypes.ADD_PROMOS,
   payload: promos
 });
 export const promosFaild = errmess => ({
-  type: ActonTypes.PROMOS_FAILED,
+  type: ActionTypes.PROMOS_FAILED,
   payload: errmess
 });
