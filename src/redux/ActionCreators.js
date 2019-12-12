@@ -1,7 +1,7 @@
 import * as ActionTypes from "./ActionTypes";
-import {DISHES} from "../shared/dishes";
+
 import { baseUrl } from "../shared/baseUrl";
-import { actionTypes } from "react-redux-form";
+
 //action creator, return a JS object
 //sent the action type to the store
 export const addComment = comment => ({

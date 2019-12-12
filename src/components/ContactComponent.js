@@ -81,7 +81,7 @@ this.props.postFeedback(values.firstname,values.lastname,values.telnum,values.em
               >
                 <i className="fa fa-phone"></i> Call
               </a>
-              <a role="button" className="btn btn-info">
+              <a role="button" href className="btn btn-info">
                 <i className="fa fa-skype"></i> Skype
               </a>
               <a
